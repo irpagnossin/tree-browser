@@ -19,8 +19,7 @@ viewContext context =
         TreeNode (Context info) content ->
             header []
                 [ text info.name
-                , ul [] (List.map itemize content)
-                , button [ onClick NavigateTo ] [ text "Navigate" ]
+                , ul [] (List.map itemize content) {- , button [ onClick NavigateTo ] [ text "Navigate" ] -}
                 ]
 
 
@@ -33,7 +32,7 @@ itemize : Model -> Html Msg
 itemize model =
     case model of
         TreeNode (Context info) _ ->
-            li [] [ text ("ctx: " ++ info.name) ]
+            li [ onClick (NavigateTo info.id) ] [ text ("ctx: " ++ info.name) ]
 
 
 

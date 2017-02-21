@@ -13,4 +13,4 @@ type alias Model =
 
 type Msg
     = None
-    | NavigateTo
+    | NavigateTo Int

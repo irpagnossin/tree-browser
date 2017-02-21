@@ -42,8 +42,8 @@ update msg model =
         None ->
             ( model, Cmd.none )
 
-        NavigateTo ->
-            ( unwrap (myseek 2 root), Cmd.none )
+        NavigateTo id ->
+            ( unwrap (myseek id root), Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
