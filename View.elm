@@ -14,8 +14,8 @@ view model =
 
 
 viewContext : Model -> Html Msg
-viewContext context =
-    case context of
+viewContext { tree, at } =
+    case at of
         TreeNode (Context info) content ->
             header []
                 [ text info.name
@@ -28,9 +28,9 @@ viewContext context =
 --  header [] [ text info ]
 
 
-itemize : Model -> Html Msg
-itemize model =
-    case model of
+itemize : Tree Context -> Html Msg
+itemize tree =
+    case tree of
         TreeNode (Context info) _ ->
             li [ onClick (NavigateTo info.id) ] [ text ("ctx: " ++ info.name) ]
 

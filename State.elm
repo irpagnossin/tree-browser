@@ -4,18 +4,7 @@ import TreeBrowser exposing (..)
 import Types exposing (..)
 
 
-root : Model
-root =
-    TreeNode (Context { id = 0, name = "Eletromagnetismo" })
-        [ TreeNode (Context { id = 1, name = "Aula 1" }) []
-        , TreeNode (Context { id = 2, name = "Aula 2" })
-            [ TreeNode (Context { id = 3, name = "Sub-aula" }) []
-            ]
-        , TreeNode (Context { id = 4, name = "Aula 3" }) []
-        ]
-
-
-tree : Model
+tree : Tree Context
 tree =
     TreeNode (Context { id = 0, name = "Eletromagnetismo" })
         [ TreeNode (Context { id = 1, name = "Aula 1" }) []
@@ -33,17 +22,20 @@ tree =
 
 init : ( Model, Cmd Msg )
 init =
-    ( tree, Cmd.none )
+    { tree = tree
+    , at = tree
+    }
+        ! []
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         None ->
-            ( model, Cmd.none )
+            model ! []
 
         NavigateTo id ->
-            ( unwrap (myseek id root), Cmd.none )
+            { model | at = unwrap (myseek id tree) } ! []
 
 
 subscriptions : Model -> Sub Msg
