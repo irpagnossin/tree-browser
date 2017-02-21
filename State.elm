@@ -22,8 +22,9 @@ tree =
 
 init : ( Model, Cmd Msg )
 init =
-    { tree = tree
-    , at = tree
+    { at = 0 {- TODO: get it dynamically -}
+    , referrer = 0 {- TODO: get it dynamically -}
+    , tree = tree
     }
         ! []
 
@@ -35,7 +36,7 @@ update msg model =
             model ! []
 
         NavigateTo id ->
-            { model | at = unwrap (myseek id tree) } ! []
+            { model | at = id, referrer = model.at } ! []
 
 
 subscriptions : Model -> Sub Msg

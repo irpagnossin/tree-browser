@@ -1,6 +1,6 @@
 module View exposing (..)
 
-import Html exposing (Html, Attribute, div, input, text, ul, li, header, button)
+import Html exposing (Html, Attribute, div, h1, input, text, ul, li, header, button)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import List
@@ -14,12 +14,13 @@ view model =
 
 
 viewContext : Model -> Html Msg
-viewContext { tree, at } =
-    case at of
+viewContext model =
+    case unwrap (myseek model.at model.tree) of
         TreeNode (Context info) content ->
             header []
-                [ text info.name
-                , ul [] (List.map itemize content) {- , button [ onClick NavigateTo ] [ text "Navigate" ] -}
+                [ h1 [] [ text info.name ]
+                , ul [] (List.map itemize content)
+                , button [ onClick (NavigateTo model.referrer) ] [ text "Return" ]
                 ]
 
 

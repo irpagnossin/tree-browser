@@ -8,8 +8,9 @@ import TreeBrowser exposing (..)
 
 
 type alias Model =
-    { tree : Tree Context
-    , at : Tree Context
+    { at : Int
+    , referrer : Int
+    , tree : Tree Context
     }
 
 
