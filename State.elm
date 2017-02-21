@@ -38,6 +38,14 @@ update msg model =
         NavigateTo id ->
             { model | at = id, referrer = model.at } ! []
 
+        NavigateToFather id ->
+            case seekFather id model.tree of
+                Just target ->
+                    { model | at = getContextId target, referrer = id } ! []
+
+                Nothing ->
+                    model ! []
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =

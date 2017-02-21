@@ -27,6 +27,26 @@ myseek seekId node =
                 List.foldl concatContext Nothing (List.map (myseek seekId) subcontexts)
 
 
+seekFather : Int -> Tree Context -> Maybe (Tree Context)
+seekFather sonId tree =
+    case tree of
+        TreeNode _ [] ->
+            Nothing
+
+        TreeNode _ subcontexts ->
+            if List.any (\s -> (getContextId s) == sonId) subcontexts then
+                Just tree
+            else
+                List.foldl concatContext Nothing (List.map (seekFather sonId) subcontexts)
+
+
+getContextId : Tree Context -> Int
+getContextId tree =
+    case tree of
+        TreeNode (Context info) _ ->
+            info.id
+
+
 concatContext : Maybe (Tree Context) -> Maybe (Tree Context) -> Maybe (Tree Context)
 concatContext ctx1 ctx2 =
     if ctx1 == Nothing then

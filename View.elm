@@ -21,6 +21,7 @@ viewContext model =
                 [ h1 [] [ text info.name ]
                 , ul [] (List.map itemize content)
                 , button [ onClick (NavigateTo model.referrer) ] [ text "Return" ]
+                , button [ onClick (NavigateToFather info.id) ] [ text "Up" ]
                 ]
 
 
