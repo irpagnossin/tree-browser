@@ -1,15 +1,17 @@
 module State exposing (..)
 
+import Tree exposing (..)
 import TreeBrowser exposing (..)
 import Types exposing (..)
 
 
-tree : Tree Context
+tree : Tree Context Activity
 tree =
     TreeNode (Context { id = 0, name = "Eletromagnetismo" })
         [ TreeNode (Context { id = 1, name = "Aula 1" }) []
         , TreeNode (Context { id = 2, name = "Aula 2" })
-            [ TreeNode (Context { id = 3, name = "Sub-aula" }) []
+            [ TreeNode (Context { id = 3, name = "Sub-aula" })
+                [ LeafNode (Activity { id = 5, name = "Senta que lá vem a história" }) ]
             ]
         , TreeNode (Context { id = 4, name = "Aula 3" }) []
         ]
@@ -22,11 +24,15 @@ tree =
 
 init : ( Model, Cmd Msg )
 init =
-    { at = 0 {- TODO: get it dynamically -}
-    , referrer = 0 {- TODO: get it dynamically -}
-    , tree = tree
-    }
-        ! []
+    let
+        id =
+            getContextId tree
+    in
+        { at = id
+        , referrer = id
+        , tree = tree
+        }
+            ! []
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

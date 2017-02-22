@@ -4,6 +4,7 @@ import Html exposing (Html, Attribute, div, h1, input, text, ul, li, header, but
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import List
+import Tree exposing (..)
 import TreeBrowser exposing (..)
 import Types exposing (..)
 
@@ -24,19 +25,15 @@ viewContext model =
                 , button [ onClick (NavigateToFather info.id) ] [ text "Up" ]
                 ]
 
+        LeafNode (Activity info) ->
+            h1 [] [ text info.name ]
 
 
---Activity info ->
---  header [] [ text info ]
-
-
-itemize : Tree Context -> Html Msg
+itemize : Tree Context Activity -> Html Msg
 itemize tree =
     case tree of
         TreeNode (Context info) _ ->
             li [ onClick (NavigateTo info.id) ] [ text ("ctx: " ++ info.name) ]
 
-
-
---Activity info ->
---  li [] [text ("act: " ++ info)]
+        LeafNode (Activity info) ->
+            li [ onClick (NavigateTo info.id) ] [ text ("act: " ++ info.name) ]

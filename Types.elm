@@ -1,5 +1,6 @@
 module Types exposing (..)
 
+import Tree exposing (..)
 import TreeBrowser exposing (..)
 
 
@@ -10,7 +11,7 @@ import TreeBrowser exposing (..)
 type alias Model =
     { at : Int
     , referrer : Int
-    , tree : Tree Context
+    , tree : Tree Context Activity
     }
 
 
@@ -18,3 +19,7 @@ type Msg
     = None
     | NavigateTo Int
     | NavigateToFather Int
+
+
+
+{- TODO: ther is no need for this -}

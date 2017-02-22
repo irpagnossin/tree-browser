@@ -1,13 +1,16 @@
 module TreeBrowser exposing (..)
 
 import List
-
-
-type Tree a
-    = TreeNode a (List (Tree a))
+import Tree exposing (..)
 
 
 type alias ContextInfo =
+    { id : Int
+    , name : String
+    }
+
+
+type alias ActivityInfo =
     { id : Int
     , name : String
     }
@@ -17,7 +20,11 @@ type Context
     = Context ContextInfo
 
 
-myseek : Int -> Tree Context -> Maybe (Tree Context)
+type Activity
+    = Activity ActivityInfo
+
+
+myseek : Int -> Tree Context Activity -> Maybe (Tree Context Activity)
 myseek seekId node =
     case node of
         TreeNode (Context info) subcontexts ->
@@ -26,8 +33,14 @@ myseek seekId node =
             else
                 List.foldl concatContext Nothing (List.map (myseek seekId) subcontexts)
 
+        LeafNode (Activity info) ->
+            if info.id == seekId then
+                Just node
+            else
+                Nothing
 
-seekFather : Int -> Tree Context -> Maybe (Tree Context)
+
+seekFather : Int -> Tree Context Activity -> Maybe (Tree Context Activity)
 seekFather sonId tree =
     case tree of
         TreeNode _ [] ->
@@ -39,15 +52,22 @@ seekFather sonId tree =
             else
                 List.foldl concatContext Nothing (List.map (seekFather sonId) subcontexts)
 
+        LeafNode _ ->
+            Nothing
 
-getContextId : Tree Context -> Int
-getContextId tree =
-    case tree of
+
+getContextId : Tree Context Activity -> Int
+getContextId node =
+    case node of
         TreeNode (Context info) _ ->
             info.id
 
+        LeafNode (Activity info) ->
+            {- TODO: can I use 'TreeNode (_ info) -'? -}
+            info.id
 
-concatContext : Maybe (Tree Context) -> Maybe (Tree Context) -> Maybe (Tree Context)
+
+concatContext : Maybe (Tree Context Activity) -> Maybe (Tree Context Activity) -> Maybe (Tree Context Activity)
 concatContext ctx1 ctx2 =
     if ctx1 == Nothing then
         ctx2
@@ -55,7 +75,11 @@ concatContext ctx1 ctx2 =
         ctx1
 
 
-unwrap : Maybe (Tree Context) -> Tree Context
+
+{- TODO: remove this -}
+
+
+unwrap : Maybe (Tree Context Activity) -> Tree Context Activity
 unwrap tree =
     case tree of
         Nothing ->
